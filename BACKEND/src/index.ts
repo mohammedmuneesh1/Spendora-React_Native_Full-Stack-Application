@@ -17,6 +17,7 @@ import connectDBFn from "./configs/dbConnectFn";
 import morganMiddleware from "./middleware/builtInMiddleware/morganMiddleware";
 
 import { router as TransactionRoutes } from "./app/transactions/route.transactions";
+import job from "./cron/cron";
 
 // Initialize Express app
 const app: Express = express();
@@ -71,6 +72,28 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 //---------------------------------- WORKING + ERROR + ROUTE NOT FOUND + GLOBAL ERROR HANDLER  END ----------------------------------
+
+
+//---------------------------------- CRON JOB SETTING START ----------------------------------
+if(process.env.NODE_ENV === 'production'){
+  job.start();
+}
+//---------------------------------- CRON JOB SETTING END ----------------------------------
+
+
+//---------------------------------- API HEALTH CHECK START ----------------------------------
+
+app.get("/api/health",(req,res)=>{
+    res.status(200).json({
+        success:true,
+        message:"API is working"
+    })
+})
+
+
+//---------------------------------- API HEALTH CHECK END ----------------------------------
+
+
 
 
 

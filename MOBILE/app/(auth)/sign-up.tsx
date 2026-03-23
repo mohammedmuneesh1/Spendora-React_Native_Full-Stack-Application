@@ -5,7 +5,7 @@ import { Image, Pressable, Text, TextInput, TouchableOpacity, View } from 'react
 import { styles } from '@/assets/styles/auth.styles'
 import {Ionicons} from '@expo/vector-icons';
 import { COLORS } from '@/assets/styles/colors'
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 export default function Page() {
   const { signUp, errors, fetchStatus } = useSignUp()
   const { isSignedIn } = useAuth()
@@ -122,13 +122,17 @@ export default function Page() {
 
 
   return (
-    <View
-    //  style={styles.container}
-    style={{flex:1, alignItems:'center',
-      justifyContent:"center",
-      "width":"100%",
-      "height":"100%"
-    }}
+    <KeyboardAwareScrollView
+    style={{flex:1}}
+    contentContainerStyle={{flexGrow:1}}
+    enableOnAndroid={true}
+    enableAutomaticScroll={true}
+    keyboardShouldPersistTaps={"handled"}
+    // style={{flex:1, alignItems:'center',
+    //   justifyContent:"center",
+    //   "width":"100%",
+    //   "height":"100%"
+    // }}
     >
       <View style={styles?.container}>
         <Image 
@@ -198,7 +202,7 @@ onPress={handleSubmit}>
 
 
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   )
 }
 

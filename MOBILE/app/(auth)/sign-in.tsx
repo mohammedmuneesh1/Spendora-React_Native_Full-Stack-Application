@@ -1,7 +1,9 @@
+import { styles } from '@/assets/styles/auth.styles'
 import { useSignIn } from '@clerk/expo'
-import { type Href, Link, useRouter } from 'expo-router'
-import React from 'react'
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { type Href,  useFocusEffect,  useRouter } from 'expo-router'
+import React, { useCallback } from 'react'
+import { Image, Pressable,  Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function SignInPage() {
   const { signIn, errors, fetchStatus } = useSignIn()
@@ -10,6 +12,18 @@ export default function SignInPage() {
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [code, setCode] = React.useState('');
+
+
+//   React.useEffect(() => {
+//   setEmailAddress('')
+//   setPassword('')
+//   // Reset the signIn attempt to clear stale errors
+//   signIn.create({ identifier: '' }).catch(() => {})
+// }, []);
+
+
+
+
 
   const handleSubmit = async () => {
     const { error } = await signIn.password({
@@ -98,12 +112,12 @@ export default function SignInPage() {
           onChangeText={(code) => setCode(code)}
           keyboardType="numeric"
         />
-        {errors.fields.code && <Text style={styles.error}>{errors.fields.code.message}</Text>}
+        {errors.fields.code && <Text style={styles.errorBox}>{errors.fields.code.message}</Text>}
         <Pressable
           style={({ pressed }) => [
             styles.button,
-            fetchStatus === 'fetching' && styles.buttonDisabled,
-            pressed && styles.buttonPressed,
+            // fetchStatus === 'fetching' && styles.buttonDisabled,
+            // pressed && styles.buttonPressed,
           ]}
           onPress={handleVerify}
           disabled={fetchStatus === 'fetching'}
@@ -111,129 +125,81 @@ export default function SignInPage() {
           <Text style={styles.buttonText}>Verify</Text>
         </Pressable>
         <Pressable
-          style={({ pressed }) => [styles.secondaryButton, pressed && styles.buttonPressed]}
+          // style={({ pressed }) => [styles.secondaryButton, pressed && styles.buttonPressed]}
           onPress={() => signIn.mfa.sendEmailCode()}
         >
-          <Text style={styles.secondaryButtonText}>I need a new code</Text>
+          <Text style={styles.linkText}>I need a new code</Text>
         </Pressable>
       </View>
     )
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.title, { fontSize: 24, fontWeight: 'bold' }]}>Sign in</Text>
-      <Text style={styles.label}>Email address</Text>
-      <TextInput
-        style={styles.input}
-        autoCapitalize="none"
-        value={emailAddress}
-        placeholder="Enter email"
-        placeholderTextColor="#666666"
-        onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
-        keyboardType="email-address"
-      />
-      {errors.fields.identifier && (
-        <Text style={styles.error}>{errors.fields.identifier.message}</Text>
-      )}
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        value={password}
-        placeholder="Enter password"
-        placeholderTextColor="#666666"
-        secureTextEntry={true}
-        onChangeText={(password) => setPassword(password)}
-      />
-      {errors.fields.password && <Text style={styles.error}>{errors.fields.password.message}</Text>}
-      <Pressable
-        style={({ pressed }) => [
-          styles.button,
-          (!emailAddress || !password || fetchStatus === 'fetching') && styles.buttonDisabled,
-          pressed && styles.buttonPressed,
-        ]}
-        onPress={handleSubmit}
-        disabled={!emailAddress || !password || fetchStatus === 'fetching'}
-      >
-        <Text style={styles.buttonText}>Continue</Text>
-      </Pressable>
-      {/* For your debugging purposes. You can just console.log errors, but we put them in the UI for convenience */}
-      {errors && <Text style={styles.debug}>{JSON.stringify(errors, null, 2)}</Text>}
+        <KeyboardAwareScrollView
+        style={{flex:1}}
+        contentContainerStyle={{flexGrow:1}}
+        enableOnAndroid={true}
+        enableAutomaticScroll={true}
+        keyboardShouldPersistTaps={"handled"}
+        // style={{flex:1, alignItems:'center',
+        //   justifyContent:"center",
+        //   "width":"100%",
+        //   "height":"100%"
+        // }}
+        >
+          <View style={styles?.container}>
+            <Image 
+            source={
+              require("../../assets/custom/revenue-i4.png")
+            }
+            style={styles.illustration}
+            />
+    
+            <Text
+            style={styles?.title}
+            >
+            Welcome Back
+            </Text>
 
-      <View style={styles.linkContainer}>
-        <Text>Don&apos;t have an account? </Text>
-        <Link href="/sign-up">
-          <Text style={{ color: '#0a7ea4' }}>Sign up</Text>
-        </Link>
-      </View>
+       {errors?.fields?.identifier && (
+         <Text style={styles.errorBox}>{errors?.fields?.identifier?.message}</Text>
+       )}
+
+    <TextInput
+    autoCapitalize='none'
+    value={emailAddress}
+    style={[styles?.input, errors.fields.code  && styles.errorInput ]}
+    placeholder='Enter Email'
+    placeholderTextColor={"#9A8478"}
+    onChangeText={(email)=>setEmailAddress(email)}
+    />
+    
+    {errors?.fields?.password && <Text style={styles?.errorBox}>{errors.fields.password.message}</Text>}
+
+    <TextInput
+    autoCapitalize='none'
+    value={password}
+    placeholder='Enter Password'
+    placeholderTextColor={"#9A8478"}
+    style={[styles?.input, errors.fields.code && styles.errorInput]}
+    onChangeText={(password)=>setPassword(password)}
+    />
+    
+    <TouchableOpacity 
+    style={styles.button}
+    onPress={handleSubmit}>
+      <Text style={styles?.buttonText}>Sign In</Text>
+    </TouchableOpacity>
+    
+    <View style={styles?.footerContainer}>
+      <Text style={styles?.footerText}>Don&apos;t have an account?</Text>
+      <TouchableOpacity onPress={() => router.push('/sign-up')}>
+        <Text style={styles?.linkText}>Sign Up</Text>
+      </TouchableOpacity>
     </View>
+          </View>
+        </KeyboardAwareScrollView>
+
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    gap: 12,
-  },
-  title: {
-    marginBottom: 8,
-  },
-  label: {
-    fontWeight: '600',
-    fontSize: 14,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
-  button: {
-    backgroundColor: '#0a7ea4',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  buttonPressed: {
-    opacity: 0.7,
-  },
-  buttonDisabled: {
-    opacity: 0.5,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: '600',
-  },
-  secondaryButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  secondaryButtonText: {
-    color: '#0a7ea4',
-    fontWeight: '600',
-  },
-  linkContainer: {
-    flexDirection: 'row',
-    gap: 4,
-    marginTop: 12,
-    alignItems: 'center',
-  },
-  error: {
-    color: '#d32f2f',
-    fontSize: 12,
-    marginTop: -8,
-  },
-  debug: {
-    fontSize: 10,
-    opacity: 0.5,
-    marginTop: 8,
-  },
-})

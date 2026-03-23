@@ -54,16 +54,40 @@
 // })
 
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import SignOutButton from '@/components/SignOutButton';
+import { useUser } from '@clerk/expo';
+import { useTransactions } from '@/hooks/useTransactions';
+import PageLoader from '@/components/PageLoader';
 
 const RootIndexPage = () => {
+  const {user} = useUser();
+  const {transactions,summary,isLoading,deleteTransactions,loadData} = useTransactions(user?.id as string);
+
+  useEffect(()=>{
+    loadData();
+  },[loadData]);
+  console.log('data is loaded ',transactions);
+
+
+  if(true){
+    return <PageLoader/>
+  }
+
+
   return (
     <View>
       <Text>this is the root page nowonwards </Text>
+      <Text>{user?.emailAddresses[0].emailAddress}</Text>
+      <Text>{summary?.balance ?? "N/A"}</Text>
+      <Text>{summary?.income ?? "N/A"}</Text>
+      <Text>{summary?.expenses ?? ""}</Text>
+
+
       <SignOutButton/>
     </View>
   )
+    
 }
 
 export default RootIndexPage;

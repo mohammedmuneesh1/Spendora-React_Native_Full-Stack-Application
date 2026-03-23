@@ -17,10 +17,10 @@ export const CREATE_USER_TRANSACTIONS  = async (req:Request, res:Response):Promi
 
 
 
-export const GET_ALL_USER_TRANSACTIONS = async (req:Request, res:Response):Promise<Response> => {
+export const GET_ALL_USER_TRANSACTIONS_BY_PAGINATION = async (req:Request, res:Response):Promise<Response> => {
     // const userId = req?.userId;
 
-    const {userId} = req.body;
+    const {userId} = req.params;
     const page = req.query.page || 1;
     const limit = Number(req.query.limit) && Number(req.query.limit) !== 0 ? Number(req.query.limit) :   10;
     const offset = (Number(page) - 1) * limit;
@@ -34,6 +34,17 @@ export const GET_ALL_USER_TRANSACTIONS = async (req:Request, res:Response):Promi
         data:transactions,
         totalDoc:Number(totalDoc[0].count),
     }, "transactions has been registered successfully")
+}
+
+export const GET_ALL_USER_TRANSACTIONS = async (req:Request, res:Response):Promise<Response> => {
+    // const userId = req?.userId;
+    const {userId} = req.params;
+    console.log('erquest herre',userId);
+    if(!userId || typeof userId !== 'string') return ResponseHandler(res,200,false,null,"Invalid user id");
+    const transactions =  await sql `SELECT * FROM transactions WHERE userd_id = ${userId} ORDER BY created_at DESC `;
+    
+    // const totalDoc  = await sql `SELECT COUNT(*) FROM transactions WHERE userd_id = ${userId}`
+    return ResponseHandler(res,200,true,transactions, "transactions has been registered successfully")
 }
 
 
@@ -52,7 +63,8 @@ export const DELETE_TRANSACTION_BY_ID=async(req:Request, res:Response):Promise<R
 
 
 export const GET_USER_TRANSACTIONS_SUMMARY = async (req:Request, res:Response):Promise<Response> => {
-    const {userId} = req.body;
+    const {userId} = req.params;
+
     if(!userId || typeof userId !== 'string') return ResponseHandler(res,200,false,null,"Invalid user id");
     // const balanceResult = await sql `SELECT SUM(amount) AS balance FROM transactions WHERE userd_id = ${userId}`;
     const balanceResult = await sql `SELECT COALESCE(SUM(amount), 0) AS balance FROM transactions WHERE userd_id = ${userId}`; //EXPENSE + INCOME
@@ -63,5 +75,7 @@ export const GET_USER_TRANSACTIONS_SUMMARY = async (req:Request, res:Response):P
         expense:expenseResult[0].expense,
         income:incomeResult[0].income
     };
+    console.log('data summary',data);
+
     return ResponseHandler(res,200,true,data,'transactions summary has been fetched successfully.')
 }
