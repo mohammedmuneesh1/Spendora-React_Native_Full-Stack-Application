@@ -8,10 +8,10 @@ export const router = express.Router();
 
 
 
-router.route('/summary/:userId').get(tryCatch(GET_USER_TRANSACTIONS_SUMMARY));
 router.route("/").post(createTransactionValidation ,expressValidator, tryCatch(CREATE_USER_TRANSACTIONS));
+router.route('/summary/:userId').get(tryCatch(GET_USER_TRANSACTIONS_SUMMARY));
 router.route('/all/:userId').get(tryCatch(GET_ALL_USER_TRANSACTIONS));
-router.route('/:id').get(tryCatch(DELETE_TRANSACTION_BY_ID));
+router.route('/:id').delete(tryCatch(DELETE_TRANSACTION_BY_ID));
 
 
 

@@ -2,7 +2,7 @@ import SafeScreen from "@/components/SafeScreen";
 import { Slot } from "expo-router";
 import { ClerkProvider } from '@clerk/expo';
 import { tokenCache } from '@clerk/expo/token-cache'
-
+import {StatusBar} from 'expo-status-bar'
 
 
 
@@ -29,11 +29,11 @@ if (!publishableKey) {
 
      <ClerkProvider
       publishableKey={publishableKey}
-       tokenCache={tokenCache}
-      >
+       tokenCache={tokenCache}>
         <SafeScreen>
-      <Slot />   {/* SLOT IS SOMETHING EQUIVALENT TO <OUTLET/> IN REACT */}
+        <Slot />   {/* SLOT IS SOMETHING EQUIVALENT TO <OUTLET/> IN REACT */}
       </SafeScreen>
+      <StatusBar style="dark"/>
     </ClerkProvider>
   )
 }

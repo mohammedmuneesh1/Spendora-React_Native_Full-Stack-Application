@@ -12,3 +12,13 @@ export function formatDate(dateString:string) {
     day: "numeric",
   });
 }
+
+
+
+
+export const formatMoney = (value: number | string | undefined,type="default") => {
+  const num = Number(value ?? 0);
+  if (num === 0) return "0.00";
+  // return `${num > 0 ? "+" : ""}${num.toFixed(2)}`;
+  return `${num.toFixed(2)}`;
+};

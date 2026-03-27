@@ -6,6 +6,7 @@ import { sql } from "../../configs/dbConnectFn";
 
 export const CREATE_USER_TRANSACTIONS  = async (req:Request, res:Response):Promise<Response> => {
     const {title,amount,category,userId,type} = req.body;
+    console.log('body',req.body);
     // const userId = req?.userId;
     if(!userId || typeof userId !== 'string') return ResponseHandler(res,200,false,null,"Invalid user id");
     const transactions =  await sql `INSERT INTO transactions(userd_id,title,amount,category,type)
@@ -75,7 +76,5 @@ export const GET_USER_TRANSACTIONS_SUMMARY = async (req:Request, res:Response):P
         expense:expenseResult[0].expense,
         income:incomeResult[0].income
     };
-    console.log('data summary',data);
-
     return ResponseHandler(res,200,true,data,'transactions summary has been fetched successfully.')
 }

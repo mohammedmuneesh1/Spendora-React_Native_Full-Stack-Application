@@ -5,15 +5,16 @@ import { Alert } from "react-native";
 
 
 
-const API_URL = "http://10.102.157.107:8080";
+// const API_URL = "http://10.55.57.108:8080";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 
 export const useTransactions = (userId:string) => {
     const [transactions,setTransactions] = useState([]);
     const [summary,setSummary] = useState({
-        balance:0,
+        total:0,
         income:0,
-        expenses:0
+        expense:0
     });
     const [isLoading,setIsLoading] = useState(false);
 
@@ -76,7 +77,7 @@ const loadData = useCallback(
 
 
 
-const deleteTransactions = async (id:string)=>{
+const deleteTransactions = async (id:number)=>{
     try {
         const response = await fetch(`${API_URL}/api/transactions/${id}`,{
             method:"DELETE"
