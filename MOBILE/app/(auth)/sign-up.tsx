@@ -2,15 +2,16 @@ import { useAuth, useSignUp } from '@clerk/expo'
 import { type Href, Link, useRouter } from 'expo-router'
 import React from 'react'
 import { Image, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { styles } from '@/assets/styles/auth.styles'
 import {Ionicons} from '@expo/vector-icons';
-import { COLORS } from '@/assets/styles/colors'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useTheme } from '@/context/ThemeContext';
+import { createAuthStyles } from '@/assets/styles/auth.styles';
 export default function Page() {
   const { signUp, errors, fetchStatus } = useSignUp()
   const { isSignedIn } = useAuth()
   const router = useRouter()
-
+  const { theme } = useTheme();
+  const styles = createAuthStyles(theme);
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [code, setCode] = React.useState('')
@@ -86,7 +87,7 @@ export default function Page() {
         />
         {errors.fields.code && (
           <View style={styles.errorBox}>
-            <Ionicons name="alert-circle" size={20} color={COLORS?.expense} />
+            <Ionicons name="alert-circle" size={20} color={theme?.expense} />
             <Text 
             style={styles.errorText}>
               {errors.fields.code.message}

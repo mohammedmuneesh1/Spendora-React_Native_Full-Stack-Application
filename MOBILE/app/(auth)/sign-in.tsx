@@ -1,9 +1,12 @@
-import { styles } from '@/assets/styles/auth.styles'
+import { createAuthStyles} from '@/assets/styles/auth.styles'
+import { useTheme } from '@/context/ThemeContext'
 import { useSignIn } from '@clerk/expo'
 import { type Href,  useFocusEffect,  useRouter } from 'expo-router'
 import React, { useCallback } from 'react'
 import { Image, Pressable,  Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
+
 
 export default function SignInPage() {
   const { signIn, errors, fetchStatus } = useSignIn()
@@ -12,6 +15,10 @@ export default function SignInPage() {
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [code, setCode] = React.useState('');
+  const { theme } = useTheme();
+const styles = createAuthStyles(theme);
+
+
 
 
 //   React.useEffect(() => {

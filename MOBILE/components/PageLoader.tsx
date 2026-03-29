@@ -1,11 +1,16 @@
-import { View, Text, ActivityIndicator } from 'react-native'
+import { View } from 'react-native'
 import React from 'react'
-import { styles } from '../assets/styles/home.styles'
-import { COLORS } from '../assets/styles/colors'
 import { BallIndicator } from 'react-native-indicators';
+import { useTheme } from '@/context/ThemeContext';
+import { createHomeStyles } from '@/assets/styles/home.styles';
 
 
 const PageLoader = () => {
+
+      const { theme } = useTheme();
+      const styles = createHomeStyles(theme);
+      
+
   return (
     <View style={styles?.loadingContainer}>
       {/* <ActivityIndicator
@@ -15,7 +20,7 @@ const PageLoader = () => {
   hidesWhenStopped={true}
       /> */}
 <BallIndicator
- color={COLORS?.primary} 
+ color={theme?.primary} 
  size={60}
   />
     </View>

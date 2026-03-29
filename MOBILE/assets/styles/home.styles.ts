@@ -1,21 +1,22 @@
 // styles/home.styles.js
 import { StyleSheet } from "react-native";
-import { COLORS } from "./colors";
 
-export const styles = StyleSheet.create({
+export const createHomeStyles =(COLORS: any) =>
+   StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
   content: {
+    flex: 1,
     padding: 20,
     paddingBottom: 0,
   },
   header: {
+
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
     paddingHorizontal: 0,
     paddingVertical: 12,
   },

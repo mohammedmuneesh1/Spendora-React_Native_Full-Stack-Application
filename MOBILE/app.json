@@ -43,6 +43,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6013ee86-2053-43fb-9936-8635abffe4b5"
+      }
+    },
+    "owner": "virtualrealitymessenger"
   }
 }

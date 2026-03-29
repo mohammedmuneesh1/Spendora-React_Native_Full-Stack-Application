@@ -2,10 +2,10 @@ import { View, Text, Alert, TouchableOpacity, TextInput, ActivityIndicator } fro
 import React, { useState } from 'react'
 import { useRouter } from 'expo-router';
 import { useUser } from '@clerk/expo';
-import { styles } from '@/assets/styles/create.styles';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '@/assets/styles/colors';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useTheme } from '@/context/ThemeContext';
+import { createTransactionStyles } from '@/assets/styles/create.styles';
 
 
 const CATEGORIES = [
@@ -22,6 +22,12 @@ const CATEGORIES = [
 const CreateScreen = () => {
     const router = useRouter();
     const {user} = useUser();
+    const { theme } = useTheme();
+    const styles = createTransactionStyles(theme);
+          
+    
+
+
     const [formData,setFormData] = useState({
         title:'',
         amount:0,
@@ -87,7 +93,7 @@ const CreateScreen = () => {
         >
           <Ionicons 
           name="arrow-back"
-           size={24} color={COLORS.text} 
+           size={24} color={theme.text} 
         />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>New Transaction</Text>
@@ -97,7 +103,7 @@ const CreateScreen = () => {
           disabled={isLoading}
         >
           <Text style={styles.saveButton}>{isLoading ? "Saving..." : "Save"}</Text>
-          {!isLoading && <Ionicons name="checkmark" size={18} color={COLORS.primary} />}
+          {!isLoading && <Ionicons name="checkmark" size={18} color={theme.primary} />}
         </TouchableOpacity>
       </View>
       {/* HEADER END */}
@@ -112,7 +118,7 @@ const CreateScreen = () => {
             <Ionicons
               name="arrow-down-circle"
               size={22}
-              color={formData?.type === "expense" ? COLORS.white : COLORS.expense}
+              color={formData?.type === "expense" ? theme.white : theme.expense}
               style={styles.typeIcon}
             />
             <Text style={[styles.typeButtonText, formData?.type === "expense"  && styles.typeButtonTextActive]}>
@@ -128,7 +134,7 @@ const CreateScreen = () => {
             <Ionicons
               name="arrow-up-circle"
               size={22}
-              color={formData?.type === "expense" ?COLORS.income : COLORS.white  }
+              color={formData?.type === "expense" ? theme.income : theme.white  }
               style={styles.typeIcon}
             />
             <Text style={[styles.typeButtonText, formData?.type !== "expense" && styles.typeButtonTextActive]}>
@@ -143,7 +149,7 @@ const CreateScreen = () => {
           <TextInput
             style={styles.amountInput}
             placeholder="0.00"
-            placeholderTextColor={COLORS.textLight}
+            placeholderTextColor={theme.textLight}
             value={String(formData.amount  ?? "")}
             onChangeText={(data) => setFormData((val) => ({ ...val, amount: Number(data) }))}
             keyboardType="numeric"
@@ -155,13 +161,13 @@ const CreateScreen = () => {
           <Ionicons
             name="create-outline"
             size={22}
-            color={COLORS.textLight}
+            color={theme.textLight}
             style={styles.inputIcon}
           />
           <TextInput
             style={styles.input}
             placeholder="Transaction Title"
-            placeholderTextColor={COLORS.textLight}
+            placeholderTextColor={theme.textLight}
             value={formData.title}
             onChangeText={(data) => setFormData((val) => ({ ...val, title: data }))}
           />
@@ -169,7 +175,7 @@ const CreateScreen = () => {
 
         {/* TITLE */}
         <Text style={styles.sectionTitle}>
-          <Ionicons name="pricetag-outline" size={16} color={COLORS.text} /> Category
+          <Ionicons name="pricetag-outline" size={16} color={theme.text} /> Category
         </Text>
 
         <View style={styles.categoryGrid}>
@@ -187,7 +193,7 @@ const CreateScreen = () => {
               <Ionicons
                 name={(category.icon ?? "at-outline") as any}
                 size={20}
-                color={formData?.category === category.name ? COLORS.white : COLORS.text}
+                color={formData?.category === category.name ? theme.white : theme.text}
                 style={styles.categoryIcon}
               />
               <Text
@@ -205,7 +211,7 @@ const CreateScreen = () => {
 
       {isLoading && (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={COLORS.primary} />
+          <ActivityIndicator size="large" color={theme.primary} />
         </View>
       )}
     </View>

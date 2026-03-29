@@ -59,18 +59,23 @@ import SignOutButton from '@/components/SignOutButton';
 import { useUser } from '@clerk/expo';
 import { useTransactions } from '@/hooks/useTransactions';
 import PageLoader from '@/components/PageLoader';
-import { styles } from '@/assets/styles/home.styles';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import BalanceCard from '@/components/BalanceCard';
 import { TransactionItem } from '@/components/TransactionItem';
 import NoTransactionsFound from '@/components/NoTransactionFound';
+import { useTheme } from '@/context/ThemeContext';
+import { createHomeStyles } from '@/assets/styles/home.styles';
+import ThemeDropdown from '@/components/ThemeDropDown';
 
 const RootIndexPage = () => {
   const {user} = useUser();
   const router = useRouter();
   const {transactions,summary,isLoading,deleteTransactions,loadData} = useTransactions(user?.id as string);
   const [refreshing,setRefreshing] = useState(false);
+
+  const { theme } = useTheme();
+  const styles = createHomeStyles(theme);
 
   const onRefresh = async ()=>{
     setRefreshing(true);
@@ -126,7 +131,28 @@ const RootIndexPage = () => {
 
           {/* RIGHT SIDE */}
           <View style={styles?.headerRight}>
-            <TouchableOpacity 
+            
+
+            <SignOutButton/>
+
+          </View>
+        </View>
+
+
+        {}
+
+
+        <View 
+        style={{
+          flexDirection:"row",
+          justifyContent:"space-between",
+          alignItems:"center",
+          marginBottom:20
+        }}
+        >
+          <ThemeDropdown/>
+
+          <TouchableOpacity 
             style={styles?.addButton}
             onPress={()=>router.push("/create")}
             // onPress={()=>router.push("/create")}
@@ -134,9 +160,12 @@ const RootIndexPage = () => {
  <Ionicons name='add' size={20} color={"#fff"} />
  <Text style={styles?.addButtonText}>Add</Text>
             </TouchableOpacity>
-            <SignOutButton/>
-          </View>
+            
+
+
         </View>
+
+
         {/* HEADER end */}
 
 

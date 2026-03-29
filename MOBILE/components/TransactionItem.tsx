@@ -1,9 +1,9 @@
 
 import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { styles } from "../assets/styles/home.styles";
-import { COLORS } from "@/assets/styles/colors";
+import { createHomeStyles,  } from "../assets/styles/home.styles";
 import { formatDate, formatMoney } from "@/assets/styles/utils";
+import { useTheme } from "@/context/ThemeContext";
 
 // Map categories to their respective icons
 const CATEGORY_ICONS: Record<string, string> = {
@@ -35,6 +35,12 @@ export const TransactionItem = ({ item, onDelete }:{item:ItemInterface, onDelete
   const iconName = CATEGORY_ICONS[item.category as any] || "pricetag-outline";
 
 
+        const { theme } = useTheme();
+      const styles = createHomeStyles(theme);
+      
+
+
+
   const handleItemDeletionFn = ()=>{
             Alert.alert("Delete",`Are you sure you want to delete ${item?.title}?`,
                 [
@@ -50,7 +56,7 @@ export const TransactionItem = ({ item, onDelete }:{item:ItemInterface, onDelete
         <View style={styles.categoryIconContainer}>
 
           <Ionicons name={iconName as any} size={22}
-           color={item.type === "income" ? COLORS.income : COLORS.expense} />
+           color={item.type === "income" ? theme.income : theme.expense} />
         </View>
         <View style={styles.transactionLeft}>
           <Text 
@@ -64,7 +70,7 @@ export const TransactionItem = ({ item, onDelete }:{item:ItemInterface, onDelete
         <View
          style={styles.transactionRight}>
           <Text
-            style={[styles.transactionAmount, { color: item?.type === "income" ? COLORS.income : COLORS.expense }]}
+            style={[styles.transactionAmount, { color: item?.type === "income" ? theme.income : theme.expense }]}
           >
             {item?.type === "income" ? "+" : "-"}${formatMoney(item?.amount)}
           </Text>
@@ -72,7 +78,7 @@ export const TransactionItem = ({ item, onDelete }:{item:ItemInterface, onDelete
         </View>
       </TouchableOpacity>
       <TouchableOpacity style={styles.deleteButton} onPress={() =>handleItemDeletionFn()}>
-        <Ionicons name="trash-outline" size={20} color={COLORS.expense} />
+        <Ionicons name="trash-outline" size={20} color={theme.expense} />
       </TouchableOpacity>
     </View>
   );

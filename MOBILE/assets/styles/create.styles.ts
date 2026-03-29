@@ -1,8 +1,8 @@
 // styles/create.styles.js
 import { StyleSheet } from "react-native";
-import { COLORS } from "./colors";
 
-export const styles = StyleSheet.create({
+export const createTransactionStyles =(COLORS: any) =>
+StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,

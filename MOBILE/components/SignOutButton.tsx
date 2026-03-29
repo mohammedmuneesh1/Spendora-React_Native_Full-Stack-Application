@@ -1,15 +1,16 @@
-import { Alert, Text, TouchableOpacity } from 'react-native'
+import { Alert,  TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useClerk } from '@clerk/expo';
-import { useRouter } from 'expo-router';
-import { styles } from '@/assets/styles/home.styles';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '@/assets/styles/colors';
+import { useTheme } from '@/context/ThemeContext';
+import { createHomeStyles } from '@/assets/styles/home.styles';
 
 const SignOutButton = () => {
     const { signOut } = useClerk();
+      const { theme } = useTheme();
+      const styles = createHomeStyles(theme);
+      
 
-    const router = useRouter();
 
 
     const handleSignOut = async ()=>{
@@ -34,7 +35,7 @@ const SignOutButton = () => {
     onPress={handleSignOut}>
         <Ionicons name="log-out-outline"
         size={22}
-        color={COLORS?.text}
+        color={theme?.text}
         />
     </TouchableOpacity>
   )

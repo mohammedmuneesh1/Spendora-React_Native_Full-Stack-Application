@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { styles } from '@/assets/styles/home.styles'
-import { COLORS } from '@/assets/styles/colors';
 import { formatMoney } from '@/assets/styles/utils';
+import { useTheme } from '@/context/ThemeContext';
+import { createHomeStyles } from '@/assets/styles/home.styles';
 
 
 interface BalanceCardInterface{
@@ -14,11 +14,8 @@ interface BalanceCardInterface{
 }
 const BalanceCard:React.FC<BalanceCardInterface> = ({summary}) => {
 
-
-    console.log('this is the summary',summary);
-
-
-
+      const { theme } = useTheme();
+      const styles = createHomeStyles(theme);
 
 
   return (
@@ -34,7 +31,7 @@ const BalanceCard:React.FC<BalanceCardInterface> = ({summary}) => {
         {/* ICOME */}
             <View style={styles?.balanceStatItem}>
                 <Text style={styles?.balanceStatLabel}>Income</Text>
-                <Text style={[styles?.balanceStatAmount,{color:COLORS?.income}]}>
+                <Text style={[styles?.balanceStatAmount,{color:theme?.income}]}>
                     {summary?.income > 0 && "+"}
                     {formatMoney(summary?.income)}
                 </Text>
@@ -45,7 +42,7 @@ const BalanceCard:React.FC<BalanceCardInterface> = ({summary}) => {
                 <View style={styles?.balanceStatItem}>
                     <Text style={styles?.balanceStatLabel}>Expense</Text>
                     <Text
-                     style={[styles?.balanceStatAmount,{color:COLORS?.expense}]}>
+                     style={[styles?.balanceStatAmount,{color:theme?.expense}]}>
                     {summary?.income > 0 && "-"}
                     {formatMoney(summary?.expense)}
                     </Text>
