@@ -46,33 +46,6 @@ app.get("/working", async (req: Request, res: Response): Promise<void> => {
   res.status(200).json({ message: "API is working" });
 });
 
-// Example route to test global error handling
-app.get("/error", (req: Request, res: Response) => {
-  logger.error(`/error route triggered`);
-  throw new Error("Test error");
-});
-
-// 404 Not Found Handler (must come after all routes)
-app.use((req: Request, res: Response) => {
-  logger.error(`Route not Found: ${req.originalUrl}`);
-  res.status(404).json({
-    success: false,
-    message: "Route not found",
-  });
-});
-
-// Global Error Handler
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  logger.error(`Global Error: ${err instanceof Error ? err.message : err}`);
-  res.status(err.status || 500).json({
-    success: false,
-    data: null,
-    response: err.message || "Internal Server Error",
-  });
-});
-
-//---------------------------------- WORKING + ERROR + ROUTE NOT FOUND + GLOBAL ERROR HANDLER  END ----------------------------------
-
 
 //---------------------------------- CRON JOB SETTING START ----------------------------------
 if(process.env.NODE_ENV === 'production'){
@@ -100,6 +73,38 @@ app.get("/api/health",(req,res)=>{
 
 
 //---------------------------------- API HEALTH CHECK END ----------------------------------
+
+
+
+
+
+
+// Example route to test global error handling
+app.get("/error", (req: Request, res: Response) => {
+  logger.error(`/error route triggered`);
+  throw new Error("Test error");
+});
+
+// 404 Not Found Handler (must come after all routes)
+app.use((req: Request, res: Response) => {
+  logger.error(`Route not Found: ${req.originalUrl}`);
+  res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
+});
+
+// Global Error Handler
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  logger.error(`Global Error: ${err instanceof Error ? err.message : err}`);
+  res.status(err.status || 500).json({
+    success: false,
+    data: null,
+    response: err.message || "Internal Server Error",
+  });
+});
+
+//---------------------------------- WORKING + ERROR + ROUTE NOT FOUND + GLOBAL ERROR HANDLER  END ----------------------------------
 
 
 
