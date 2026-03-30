@@ -83,6 +83,14 @@ if(process.env.NODE_ENV === 'production'){
 
 //---------------------------------- API HEALTH CHECK START ----------------------------------
 
+
+app.get('/',(req,res)=>{
+    res.status(200).json({
+        success:true,
+        message:"API is working"
+    });
+})
+
 app.get("/api/health",(req,res)=>{
     res.status(200).json({
         success:true,
