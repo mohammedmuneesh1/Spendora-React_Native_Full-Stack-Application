@@ -48,7 +48,9 @@ app.get("/working", async (req: Request, res: Response): Promise<void> => {
 
 
 //---------------------------------- CRON JOB SETTING START ----------------------------------
+// if(process.env.NODE_ENV === 'development'){
 if(process.env.NODE_ENV === 'production'){
+  logger.info('cron job started');
   job.start();
 }
 //---------------------------------- CRON JOB SETTING END ----------------------------------

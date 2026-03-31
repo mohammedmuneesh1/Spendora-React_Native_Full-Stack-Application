@@ -3,9 +3,14 @@ import https from 'https';
 
 const job = new CronJob('*/14 * * * *', () => {
     console.log('running every 14 minutes');
-
     https.get(`${process.env.API_LINK}/api/health`, (res) => {
-        console.log(res.statusCode);
+        console.log("backend api response-CRON:",res.statusCode);
+    // receive data chunks
+//   res.on("data", (chunk) => {
+//     data += chunk;
+//   });
+        // console.log(res);
+        // receive data chunks
     }).on('error', (error) => {
         console.error("Error", error);
     });
