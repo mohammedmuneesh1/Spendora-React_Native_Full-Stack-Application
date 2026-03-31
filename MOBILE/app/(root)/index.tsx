@@ -54,12 +54,12 @@
 // })
 
 import { View, Text, Image, TouchableOpacity, FlatList, RefreshControl } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import SignOutButton from '@/components/SignOutButton';
 import { useUser } from '@clerk/expo';
 import { useTransactions } from '@/hooks/useTransactions';
 import PageLoader from '@/components/PageLoader';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import BalanceCard from '@/components/BalanceCard';
 import { TransactionItem } from '@/components/TransactionItem';
@@ -86,11 +86,15 @@ const RootIndexPage = () => {
 
 
 
-  useEffect(()=>{
+  // useEffect(()=>{
+  //   loadData();
+  // },[loadData]);
+
+useFocusEffect(
+  useCallback(() => {
     loadData();
-  },[loadData]);
-
-
+  }, [loadData])
+);
 
 
   if(isLoading && !refreshing){

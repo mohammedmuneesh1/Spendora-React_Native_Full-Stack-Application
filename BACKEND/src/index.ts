@@ -160,7 +160,7 @@ const gracefulShutdown = () => {
   server.close(() => {  //server .close stop accepting new request but generally current going on gracefull closing following 
     logger.info('HTTP server closed');
     // Exit after MongoDB connection is closed
-    logger.info('MongoDB connection closed');
+    // logger.info('MongoDB connection closed');
     process.exit(0);  // Exit gracefully
   });
 

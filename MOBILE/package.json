@@ -1,5 +1,5 @@
 {
-  "name": "Spendora",
+  "name": "spendora-root",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
