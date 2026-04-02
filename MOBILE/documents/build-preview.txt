@@ -1,0 +1,44 @@
+
+
+
+
+incase all fail 
+
+then   step-1 :
+//npx expo install expo-build-properties    
+
+
+
+
+then   step-2 :
+
+"plugins": [
+  "expo-router",
+  [
+    "expo-build-properties",
+    {
+      "android": {
+        "packagingOptions": {
+          "excludes": [
+            "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+          ]
+        }
+      }
+    }
+  ],
+  [
+    "expo-splash-screen",
+    {
+      "image": "./assets/images/splash-icon.png",
+      "imageWidth": 200,
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff",
+      "dark": {
+        "backgroundColor": "#000000"
+      }
+    }
+  ]
+]
+
+then   step-3 :
+// eas build -p android --profile preview --clear-cache

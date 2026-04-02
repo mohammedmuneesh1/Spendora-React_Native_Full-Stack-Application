@@ -29,6 +29,16 @@
     "plugins": [
       "expo-router",
       [
+        "expo-build-properties",
+        {
+          "android": {
+            "packagingOptions": {
+              "excludes": ["META-INF/versions/9/OSGI-INF/MANIFEST.MF"]
+            }
+          }
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
