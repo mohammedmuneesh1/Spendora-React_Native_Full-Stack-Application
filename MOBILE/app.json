@@ -33,7 +33,9 @@
         {
           "android": {
             "packagingOptions": {
-              "excludes": ["META-INF/versions/9/OSGI-INF/MANIFEST.MF"]
+              "excludes": [
+                "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+              ]
             }
           }
         }
@@ -49,7 +51,8 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,
