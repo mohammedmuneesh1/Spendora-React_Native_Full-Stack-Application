@@ -32,11 +32,9 @@
         "expo-build-properties",
         {
           "android": {
+            "extraMavenRepos": [],
             "packagingOptions": {
-              "excludes": [
-                "META-INF/versions/9/OSGI-INF/MANIFEST.MF",
-                "META-INF/MANIFEST.MF"
-              ]
+              "excludes": ["META-INF/versions/9/OSGI-INF/MANIFEST.MF"]
             }
           }
         }
